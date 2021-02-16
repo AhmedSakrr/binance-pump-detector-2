@@ -17,8 +17,9 @@ import User from './store/User'
  */
 let startTime = Time.getCurrentTimestamp()
 
-const timeInRange = [0.5, 2, 3]
+const timeInRange = [0.5]
 const ratio = 1
+const watchingPairs = ['DEXEBUSD', 'BNBUSDT', 'IOTAUSDT'];
 
 
 const storeInstance = new Store(process.env.MONGO_STRING)
@@ -40,7 +41,7 @@ telegramInstance.run()
  * @code
  */
 ;(async () => {
-  const pairs = await exchangeInstance.pairs()
+  const pairs = await exchangeInstance.pairs(watchingPairs)
 
   await exchangeInstance.runListener(pairs)
 })().catch(Logger.error)
