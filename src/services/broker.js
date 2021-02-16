@@ -26,6 +26,7 @@ export default class Broker {
 
   static processByRatio (ratio = 1, rateValues) {
     const ranges = Object.keys(rateValues).sort()
+    console.log(ranges);
 
     let result = {}
     ranges.forEach(range => {
@@ -40,12 +41,12 @@ export default class Broker {
 
         result[pairName].push({
           range,
-          value: pairData.rate
+          value: pairData.last + "$ // " + pairData.rate
         })
 
-        if (ranges[ranges.length - 1] === range && pairData.rate < ratio) {
+        /*if (ranges[ranges.length - 1] === range && pairData.rate < ratio) {
           delete result[pairName]
-        }
+        }*/
       })
     })
 

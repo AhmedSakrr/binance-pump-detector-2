@@ -17,8 +17,10 @@ import User from './store/User'
  */
 let startTime = Time.getCurrentTimestamp()
 
-const timeInRange = [0.5]
+// intervals time
+const timeInRange = [10]
 const ratio = 1
+// pairs on alert
 const watchingPairs = ['DEXEBUSD', 'BNBUSDT', 'IOTAUSDT'];
 
 
