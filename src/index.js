@@ -18,11 +18,24 @@ import User from './store/User'
 let startTime = Time.getCurrentTimestamp()
 
 // intervals time
-const timeInRange = [10]
+const timeInRange = [0.1]
 const ratio = 1
-// pairs on alert
-const watchingPairs = ['DEXEBUSD', 'BNBUSDT', 'IOTAUSDT'];
+let pairs;
 
+// pairs on alert
+let watchingPairs = [];
+watchingPairs.push('DEXEBUSD');
+watchingPairs.push('BNBUSDT');
+watchingPairs.push('IOTAUSDT');
+async function addPair(pair) {
+  watchingPairs.push(pair);
+  pairs = await exchangeInstance.pairs(watchingPairs);
+  await exchangeInstance.runListener(pairs);
+}
+function getPairs() {
+  return watchingPairs;
+}
+export {addPair, getPairs};
 
 const storeInstance = new Store(process.env.MONGO_STRING)
 const exchangeInstance = new Binance(process.env.BINANCE_API_KEY, process.env.BINANCE_API_SECRET)
@@ -43,7 +56,7 @@ telegramInstance.run()
  * @code
  */
 ;(async () => {
-  const pairs = await exchangeInstance.pairs(watchingPairs)
+  pairs = await exchangeInstance.pairs(watchingPairs)
 
   await exchangeInstance.runListener(pairs)
 })().catch(Logger.error)
@@ -74,7 +87,7 @@ telegramInstance.run()
           await (new User).notifyActiveUsers(result, telegramInstance)
         }
 
-
+        console.log(pairs);
         await storeInstance.reset()
         startTime = Time.getCurrentTimestamp()
 
